@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Patients</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+
+    <h2 class="text-2xl font-bold mb-6">All Patients</h2>
+
+    <table class="min-w-full bg-white shadow-md rounded">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="py-2 px-4">ID</th>
+                <th class="py-2 px-4">Name</th>
+                <th class="py-2 px-4">Age</th>
+                <th class="py-2 px-4">Gender</th>
+                <th class="py-2 px-4">Contact</th>
+                <th class="py-2 px-4">Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patients %}
+            <tr class="border-b">
+    <td class="py-2 px-4">{{ patient[0] }}</td>
+    <td class="py-2 px-4">{{ patient[1] }}</td>
+    <td class="py-2 px-4">{{ patient[2] }}</td>
+    <td class="py-2 px-4">{{ patient[3] }}</td>
+    <td class="py-2 px-4">{{ patient[4] }}</td>
+    <td class="py-2 px-4">{{ patient[5] }}</td>
+    <td class="py-2 px-4">
+        <a href="/delete_patient/{{ patient[0] }}"
+           class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">
+            Delete
+        </a>
+      <br>
+      <br>
+        <a href="/edit_patient/{{ patient[0] }}"
+           class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
+            Edit
+        </a>
+
+    </td>
+</tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded">
+        Back to Dashboard
+    </a>
+
+</body>
+</html>

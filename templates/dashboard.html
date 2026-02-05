@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-50 flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-lg min-h-screen">
+        <div class="p-6 border-b">
+            <h1 class="font-bold text-xl text-gray-800">MediCare</h1>
+            <p class="text-xs text-gray-500">Hospital System</p>
+        </div>
+
+        <nav class="p-4 space-y-2">
+            <a href="/" class="block px-4 py-2 bg-blue-600 text-white rounded-lg">Dashboard</a>
+            <a href="/patients" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Patients</a>
+            <a href="/doctors" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Doctors</a>
+            <a href="/appointments" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Appointments</a>
+            <a href="/billing" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Billing</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+
+        <!-- Header -->
+        <header class="bg-white shadow-sm p-6">
+            <h2 class="text-2xl font-semibold text-gray-800">
+                Welcome Back, Admin
+            </h2>
+            <p class="text-sm text-gray-500 mt-1">
+                Here's what's happening today
+            </p>
+        </header>
+
+        <!-- Dashboard Content -->
+        <main class="flex-1 px-8 py-6">
+
+            <!-- Statistics Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+                <!-- Total Patients -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-gray-500 text-sm">Total Patients</h3>
+                    <p class="text-3xl font-bold text-gray-800 mt-2">
+                        {{ total_patients }}
+                    </p>
+                </div>
+
+                <!-- Total Doctors -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-gray-500 text-sm">Total Doctors</h3>
+                    <p class="text-3xl font-bold text-gray-800 mt-2">
+                        {{ total_doctors }}
+                    </p>
+                </div>
+
+                <!-- Total Appointments -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-gray-500 text-sm">Total Appointments</h3>
+                    <p class="text-3xl font-bold text-gray-800 mt-2">
+                        {{ total_appointments }}
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-6">
+                    Quick Actions
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <a href="/add_patient" class="bg-blue-600 text-white p-4 rounded-lg text-center hover:bg-blue-700">
+                        Add Patient
+                    </a>
+                    <a href="/patients" class="bg-green-600 text-white p-4 rounded-lg text-center hover:bg-green-700">
+                        View Patients
+                    </a>
+
+                    <a href="/add_doctor" class="bg-green-600 text-white p-4 rounded-lg text-center hover:bg-green-700">
+                        Add Doctor
+                    </a>
+                    <a href="/appointments" class="bg-purple-600 text-white p-4 rounded-lg text-center hover:bg-purple-700">
+                        View Appointments
+                    </a>
+                    <a href="/billing" class="bg-red-600 text-white p-4 rounded-lg text-center hover:bg-red-700">
+                        Billing
+                    </a>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+</html>

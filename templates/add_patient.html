@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Patient</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+
+    <h2 class="text-2xl font-bold mb-6">Add Patient</h2>
+
+    <form method="POST" class="space-y-4 bg-white p-6 rounded shadow-md w-96">
+        <input type="text" name="name" placeholder="Name" class="w-full border p-2 rounded" required>
+        <input type="number" name="age" placeholder="Age" class="w-full border p-2 rounded" required>
+        <input type="text" name="gender" placeholder="Gender" class="w-full border p-2 rounded">
+        <input type="text" name="contact" placeholder="Contact" class="w-full border p-2 rounded">
+        <input type="text" name="address" placeholder="Address" class="w-full border p-2 rounded">
+
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+            Add Patient
+        </button>
+    </form>
+
+</body>
+</html>
