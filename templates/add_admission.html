@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Admission</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+
+<h2 class="text-2xl font-bold mb-6">Admit Patient</h2>
+
+<form method="POST" class="bg-white p-6 rounded shadow w-96 space-y-4">
+
+  <!-- Patient -->
+  <select name="patient_id" class="w-full border p-2 rounded" required>
+    <option value="">Select Patient</option>
+    {% for p in patients %}
+      <option value="{{ p[0] }}">{{ p[1] }}</option>
+    {% endfor %}
+  </select>
+
+  <!-- Ward -->
+  <select name="ward_id" class="w-full border p-2 rounded" required>
+    <option value="">Select Ward</option>
+    {% for w in wards %}
+      <option value="{{ w[0] }}">{{ w[1] }}</option>
+    {% endfor %}
+  </select>
+
+  <!-- Dates -->
+  <input type="date" name="admission_date" class="w-full border p-2 rounded" required>
+  <input type="date" name="expected_discharge" class="w-full border p-2 rounded" required>
+
+  <!-- Flags -->
+  <label class="flex items-center gap-2">
+    <input type="checkbox" name="is_icu"> ICU Required
+  </label>
+
+  <label class="flex items-center gap-2">
+    <input type="checkbox" name="is_operation_required"> Operation Required
+  </label>
+
+  <button class="bg-blue-600 text-white px-4 py-2 rounded w-full">
+    Admit
+  </button>
+</form>
+
+</body>
+</html>

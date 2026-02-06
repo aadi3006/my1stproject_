@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Appointment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+
+<h2 class="text-2xl font-bold mb-6">Add Appointment</h2>
+
+<form method="POST" class="bg-white p-6 rounded shadow w-96 space-y-4">
+
+    <!-- Patient Dropdown -->
+    <select name="patient_id" class="w-full border p-2 rounded" required>
+        <option value="">Select Patient</option>
+        {% for p in patients %}
+        <option value="{{ p[0] }}">{{ p[1] }}</option>
+        {% endfor %}
+    </select>
+
+    <!-- Doctor Dropdown -->
+    <select name="doctor_id" class="w-full border p-2 rounded" required>
+        <option value="">Select Doctor</option>
+        {% for d in doctors %}
+        <option value="{{ d[0] }}">{{ d[1] }}</option>
+        {% endfor %}
+    </select>
+
+    <!-- Date & Time -->
+    <input type="datetime-local" name="appointment_date"
+           class="w-full border p-2 rounded" required>
+
+    <!-- Status -->
+    <select name="status" class="w-full border p-2 rounded">
+        <option value="Scheduled">Scheduled</option>
+        <option value="Completed">Completed</option>
+        <option value="Cancelled">Cancelled</option>
+    </select>
+
+    <button class="bg-blue-600 text-white px-4 py-2 rounded">
+        Add Appointment
+    </button>
+
+</form>
+
+</body>
+</html>

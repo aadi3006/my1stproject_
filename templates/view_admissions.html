@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admissions</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+
+<h2 class="text-2xl font-bold mb-6">Admissions</h2>
+
+<table class="bg-white shadow rounded w-full">
+  <thead class="bg-gray-200">
+    <tr>
+      <th class="p-2">No</th>
+      <th class="p-2">Patient</th>
+      <th class="p-2">Ward</th>
+      <th class="p-2">Admitted</th>
+      <th class="p-2">Expected Discharge</th>
+      <th class="p-2">ICU</th>
+      <th class="p-2">Operation</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for a in admissions %}
+    <tr class="border-t text-center">
+      <td class="p-2">{{ loop.index }}</td>
+      <td class="p-2">{{ a[1] }}</td>
+      <td class="p-2">{{ a[2] }}</td>
+      <td class="p-2">{{ a[3] }}</td>
+      <td class="p-2">{{ a[4] }}</td>
+      <td class="p-2">{{ 'Yes' if a[5] else 'No' }}</td>
+      <td class="p-2">{{ 'Yes' if a[6] else 'No' }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="/" class="inline-block mt-4 bg-blue-600 text-white px-4 py-2 rounded">
+  Back to Dashboard
+</a>
+
+</body>
+</html>

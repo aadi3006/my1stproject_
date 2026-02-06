@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Doctor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+
+<h2 class="text-2xl font-bold mb-6">Edit Doctor</h2>
+
+<form method="POST" class="bg-white p-6 rounded shadow w-96 space-y-4">
+    <input type="text" name="name" value="{{ doctor[1] }}" class="w-full border p-2 rounded">
+    <input type="text" name="specialization" value="{{ doctor[2] }}" class="w-full border p-2 rounded">
+    <input type="text" name="contact" value="{{ doctor[3] }}" class="w-full border p-2 rounded">
+    <input type="number" name="experience" value="{{ doctor[4] }}" class="w-full border p-2 rounded">
+
+    <button class="bg-blue-600 text-white px-4 py-2 rounded">
+        Update Doctor
+    </button>
+</form>
+
+</body>
+</html>
