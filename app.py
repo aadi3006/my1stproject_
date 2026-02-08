@@ -222,12 +222,12 @@ def add_doctor():
     if request.method == 'POST':
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO doctor (name, specialization, contact, email) VALUES (%s,%s,%s,%s)",
+            "INSERT INTO doctor (name, specialization, contact, experience_years) VALUES (%s,%s,%s,%s)",
             (
                 request.form['name'],
                 request.form['specialization'],
                 request.form['contact'],
-                request.form['email']
+                request.form['experience']  # This form field name can stay as 'experience'
             )
         )
         conn.commit()
@@ -235,7 +235,6 @@ def add_doctor():
         return redirect('/doctors')
 
     return render_template('add_doctor.html')
-
 
 @app.route('/doctors')
 @login_required
@@ -268,13 +267,13 @@ def edit_doctor(id):
                        SET name=%s,
                            specialization=%s,
                            contact=%s,
-                           email=%s
+                           experience_years=%s
                        WHERE doctor_id = %s
                        """, (
                            request.form['name'],
                            request.form['specialization'],
                            request.form['contact'],
-                           request.form['email'],
+                           request.form['experience'],  # This form field name can stay as 'experience'
                            id
                        ))
         conn.commit()
@@ -285,7 +284,6 @@ def edit_doctor(id):
     doctor = cursor.fetchone()
     cursor.close()
     return render_template("edit_doctor.html", doctor=doctor)
-
 
 # --------------------------------------------------
 # APPOINTMENT MODULE
@@ -601,7 +599,7 @@ def billing():
 @app.route('/bills')
 @login_required
 def view_bills():
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)  # Add dictionary=True to get column names
     cursor.execute("""
                    SELECT b.bill_id,
                           p.name as patient_name,
@@ -619,7 +617,6 @@ def view_bills():
     bills = cursor.fetchall()
     cursor.close()
     return render_template("view_bills.html", bills=bills)
-
 
 @app.route('/delete_bill/<int:id>')
 @login_required
