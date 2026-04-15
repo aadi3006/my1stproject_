@@ -1,67 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Register User</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register — MediCare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+<body>
 
-<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <!-- Animated Background -->
+    <div class="app-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
 
-<div class="bg-white p-6 rounded shadow w-96">
-    <h2 class="text-2xl font-bold mb-6 text-center">Register User</h2>
+    <div class="auth-page">
+        <div class="glass-card auth-card">
 
-    <form method="POST">
-        <!-- Username -->
-        <div class="mb-4">
-            <label class="block text-sm font-semibold mb-1">Username</label>
-            <input
-                type="text"
-                name="username"
-                required
-                class="w-full border p-2 rounded"
-            >
+            <div class="auth-header">
+                <div class="auth-logo">🌺</div>
+                <h2>Create Account</h2>
+                <p>Register for MediCare Hospital System</p>
+            </div>
+
+            <form method="POST" id="register-form">
+                <div class="form-group">
+                    <label class="form-label" for="username">Username</label>
+                    <input type="text" name="username" id="username"
+                           class="form-input" placeholder="Choose a username" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" name="password" id="password"
+                           class="form-input" placeholder="Create a password" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="role">Role</label>
+                    <select name="role" id="role" class="form-select" required>
+                        <option value="viewer" selected>Viewer</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full btn-lg" id="register-btn">
+                    Create Account
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already registered? <a href="/login">Sign In</a></p>
+            </div>
+
         </div>
+    </div>
 
-        <!-- Password -->
-        <div class="mb-4">
-            <label class="block text-sm font-semibold mb-1">Password</label>
-            <input
-                type="password"
-                name="password"
-                required
-                class="w-full border p-2 rounded"
-            >
-        </div>
-
-        <!-- Role -->
-        <div class="mb-6">
-            <label class="block text-sm font-semibold mb-1">Role</label>
-            <select
-                name="role"
-                required
-                class="w-full border p-2 rounded"
-            >
-                <option value="">-- Select Role --</option>
-                <option value="admin">Admin</option>
-                <option value="doctor">Doctor</option>
-                <option value="receptionist">Receptionist</option>
-            </select>
-        </div>
-
-        <!-- Submit -->
-        <button
-            type="submit"
-            class="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700"
-        >
-            Register
-        </button>
-    </form>
-
-    <p class="text-sm text-center mt-4">
-        Already registered?
-        <a href="/login" class="text-blue-600 font-semibold">Login</a>
-    </p>
-</div>
-
+    <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
 </body>
 </html>

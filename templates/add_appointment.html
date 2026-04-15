@@ -1,47 +1,67 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Appointment</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 p-8">
+{% extends 'base.html' %}
 
-<h2 class="text-2xl font-bold mb-6">Add Appointment</h2>
+{% block title %}Add Appointment{% endblock %}
+{% block header_title %}Add Appointment{% endblock %}
 
-<form method="POST" class="bg-white p-6 rounded shadow w-96 space-y-4">
+{% block content %}
 
-    <!-- Patient Dropdown -->
-    <select name="patient_id" class="w-full border p-2 rounded" required>
-        <option value="">Select Patient</option>
-        {% for p in patients %}
-        <option value="{{ p[0] }}">{{ p[1] }}</option>
-        {% endfor %}
-    </select>
+<div class="page-header reveal">
+    <h1>Schedule Appointment</h1>
+    <p>Book a new patient-doctor appointment</p>
+</div>
 
-    <!-- Doctor Dropdown -->
-    <select name="doctor_id" class="w-full border p-2 rounded" required>
-        <option value="">Select Doctor</option>
-        {% for d in doctors %}
-        <option value="{{ d[0] }}">{{ d[1] }}</option>
-        {% endfor %}
-    </select>
+<div class="glass-card form-card reveal reveal-delay-1">
 
-    <!-- Date & Time -->
-    <input type="datetime-local" name="appointment_date"
-           class="w-full border p-2 rounded" required>
+    <form method="POST" id="add-appointment-form">
 
-    <!-- Status -->
-    <select name="status" class="w-full border p-2 rounded">
-        <option value="Scheduled">Scheduled</option>
-        <option value="Completed">Completed</option>
-        <option value="Cancelled">Cancelled</option>
-    </select>
+        <div class="form-group">
+            <label class="form-label" for="patient_id">Select Patient</label>
+            <select name="patient_id" id="patient_id" class="form-select" required>
+                <option value="">— Choose Patient —</option>
+                {% for p in patients %}
+                <option value="{{ p[0] }}">{{ p[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-    <button class="bg-blue-600 text-white px-4 py-2 rounded">
-        Add Appointment
-    </button>
+        <div class="form-group">
+            <label class="form-label" for="doctor_id">Select Doctor</label>
+            <select name="doctor_id" id="doctor_id" class="form-select" required>
+                <option value="">— Choose Doctor —</option>
+                {% for d in doctors %}
+                <option value="{{ d[0] }}">{{ d[1] }} — {{ d[2] }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-</form>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" for="appointment_date">Date & Time</label>
+                <input type="datetime-local" name="appointment_date" id="appointment_date"
+                       class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="status">Status</label>
+                <select name="status" id="status" class="form-select">
+                    <option value="Scheduled">Scheduled</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            </div>
+        </div>
 
-</body>
-</html>
+        <div class="form-divider"></div>
+
+        <div class="flex gap-4">
+            <button type="submit" class="btn btn-primary btn-lg" style="flex:1;" id="submit-appointment">
+                <i data-lucide="calendar-check"></i>
+                Schedule Appointment
+            </button>
+            <a href="/appointments" class="btn btn-ghost btn-lg" id="cancel-appointment">Cancel</a>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

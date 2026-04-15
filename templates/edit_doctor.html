@@ -1,23 +1,56 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Doctor</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 p-8">
+{% extends 'base.html' %}
 
-<h2 class="text-2xl font-bold mb-6">Edit Doctor</h2>
+{% block title %}Edit Doctor{% endblock %}
+{% block header_title %}Edit Doctor{% endblock %}
 
-<form method="POST" class="bg-white p-6 rounded shadow w-96 space-y-4">
-    <input type="text" name="name" value="{{ doctor[1] }}" class="w-full border p-2 rounded">
-    <input type="text" name="specialization" value="{{ doctor[2] }}" class="w-full border p-2 rounded">
-    <input type="text" name="contact" value="{{ doctor[3] }}" class="w-full border p-2 rounded">
-    <input type="number" name="experience" value="{{ doctor[4] }}" class="w-full border p-2 rounded">
+{% block content %}
 
-    <button class="bg-blue-600 text-white px-4 py-2 rounded">
-        Update Doctor
-    </button>
-</form>
+<div class="page-header reveal">
+    <h1>Edit Doctor</h1>
+    <p>Update doctor profile information</p>
+</div>
 
-</body>
-</html>
+<div class="glass-card form-card reveal reveal-delay-1">
+
+    <form method="POST" id="edit-doctor-form">
+
+        <div class="form-group">
+            <label class="form-label" for="name">Doctor Name</label>
+            <input type="text" name="name" id="name" class="form-input"
+                   value="{{ doctor[1] }}">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="specialization">Specialization</label>
+            <input type="text" name="specialization" id="specialization" class="form-input"
+                   value="{{ doctor[2] }}">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" for="contact">Contact Number</label>
+                <input type="text" name="contact" id="contact" class="form-input"
+                       value="{{ doctor[3] }}">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="experience">Experience (Years)</label>
+                <input type="number" name="experience" id="experience" class="form-input"
+                       value="{{ doctor[4] }}">
+            </div>
+        </div>
+
+        <div class="form-divider"></div>
+
+        <div class="flex gap-4">
+            <button type="submit" class="btn btn-primary btn-lg" style="flex:1;" id="update-doctor">
+                <i data-lucide="save"></i>
+                Update Doctor
+            </button>
+            <a href="/doctors" class="btn btn-ghost btn-lg" id="cancel-edit-doctor">Cancel</a>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

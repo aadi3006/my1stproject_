@@ -1,48 +1,75 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Add Admission</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 p-8">
+{% extends 'base.html' %}
 
-<h2 class="text-2xl font-bold mb-6">Admit Patient</h2>
+{% block title %}Admit Patient{% endblock %}
+{% block header_title %}Admit Patient{% endblock %}
 
-<form method="POST" class="bg-white p-6 rounded shadow w-96 space-y-4">
+{% block content %}
 
-  <!-- Patient -->
-  <select name="patient_id" class="w-full border p-2 rounded" required>
-    <option value="">Select Patient</option>
-    {% for p in patients %}
-      <option value="{{ p[0] }}">{{ p[1] }}</option>
-    {% endfor %}
-  </select>
+<div class="page-header reveal">
+    <h1>Admit Patient</h1>
+    <p>Record a new patient admission to the hospital</p>
+</div>
 
-  <!-- Ward -->
-  <select name="ward_id" class="w-full border p-2 rounded" required>
-    <option value="">Select Ward</option>
-    {% for w in wards %}
-      <option value="{{ w[0] }}">{{ w[1] }}</option>
-    {% endfor %}
-  </select>
+<div class="glass-card form-card reveal reveal-delay-1">
 
-  <!-- Dates -->
-  <input type="date" name="admission_date" class="w-full border p-2 rounded" required>
-  <input type="date" name="expected_discharge" class="w-full border p-2 rounded" required>
+    <form method="POST" id="add-admission-form">
 
-  <!-- Flags -->
-  <label class="flex items-center gap-2">
-    <input type="checkbox" name="is_icu"> ICU Required
-  </label>
+        <div class="form-group">
+            <label class="form-label" for="patient_id">Select Patient</label>
+            <select name="patient_id" id="patient_id" class="form-select" required>
+                <option value="">— Choose Patient —</option>
+                {% for p in patients %}
+                <option value="{{ p[0] }}">{{ p[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-  <label class="flex items-center gap-2">
-    <input type="checkbox" name="is_operation_required"> Operation Required
-  </label>
+        <div class="form-group">
+            <label class="form-label" for="ward_id">Ward Type</label>
+            <select name="ward_id" id="ward_id" class="form-select" required>
+                <option value="">— Select Ward —</option>
+                {% for w in wards %}
+                <option value="{{ w[0] }}">{{ w[1] }} — ₹{{ w[2] }}/day</option>
+                {% endfor %}
+            </select>
+        </div>
 
-  <button class="bg-blue-600 text-white px-4 py-2 rounded w-full">
-    Admit
-  </button>
-</form>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" for="admission_date">Admission Date</label>
+                <input type="date" name="admission_date" id="admission_date"
+                       class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="expected_discharge">Expected Discharge</label>
+                <input type="date" name="expected_discharge" id="expected_discharge"
+                       class="form-input" required>
+            </div>
+        </div>
 
-</body>
-</html>
+        <div class="form-divider"></div>
+
+        <div class="form-row mb-6">
+            <label class="form-checkbox">
+                <input type="checkbox" name="is_icu">
+                🚨 ICU Required
+            </label>
+            <label class="form-checkbox">
+                <input type="checkbox" name="is_operation_required">
+                🔪 Operation Required
+            </label>
+        </div>
+
+        <div class="flex gap-4">
+            <button type="submit" class="btn btn-primary btn-lg" style="flex:1;" id="submit-admission">
+                <i data-lucide="bed-double"></i>
+                Admit Patient
+            </button>
+            <a href="/admissions" class="btn btn-ghost btn-lg" id="cancel-admission">Cancel</a>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

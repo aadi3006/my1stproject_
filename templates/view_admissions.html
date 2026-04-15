@@ -1,43 +1,148 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Admissions</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 p-8">
+{% extends 'base.html' %}
 
-<h2 class="text-2xl font-bold mb-6">Admissions</h2>
+{% block title %}Admissions{% endblock %}
+{% block header_title %}Admissions{% endblock %}
 
-<table class="bg-white shadow rounded w-full">
-  <thead class="bg-gray-200">
-    <tr>
-      <th class="p-2">No</th>
-      <th class="p-2">Patient</th>
-      <th class="p-2">Ward</th>
-      <th class="p-2">Admitted</th>
-      <th class="p-2">Expected Discharge</th>
-      <th class="p-2">ICU</th>
-      <th class="p-2">Operation</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for a in admissions %}
-    <tr class="border-t text-center">
-      <td class="p-2">{{ loop.index }}</td>
-      <td class="p-2">{{ a[1] }}</td>
-      <td class="p-2">{{ a[2] }}</td>
-      <td class="p-2">{{ a[3] }}</td>
-      <td class="p-2">{{ a[4] }}</td>
-      <td class="p-2">{{ 'Yes' if a[5] else 'No' }}</td>
-      <td class="p-2">{{ 'Yes' if a[6] else 'No' }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+{% block content %}
 
-<a href="/" class="inline-block mt-4 bg-blue-600 text-white px-4 py-2 rounded">
-  Back to Dashboard
-</a>
+<div class="page-header reveal">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1>Patient Admissions</h1>
+            <p>Track current admissions, ICU, and operations</p>
+        </div>
+        {% if session.get('role') == 'admin' %}
+        <div class="flex gap-2">
+            <a href="/add_admission" class="btn btn-primary" id="btn-add-admission">
+                <i data-lucide="bed-double"></i>
+                Admit Patient
+            </a>
+            <a href="/add_icu" class="btn btn-danger" id="btn-add-icu">
+                <i data-lucide="heart-pulse"></i>
+                Add ICU
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
 
-</body>
-</html>
+<!-- Regular Admissions -->
+<div class="reveal">
+    <div class="section-title">
+        <span>🛏️ Ward Admissions</span>
+        <div class="section-title-line"></div>
+    </div>
+</div>
+
+<div class="glass-card reveal reveal-delay-1 mb-6">
+    <div class="table-container">
+        {% if admissions %}
+        <table class="data-table" id="admissions-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Patient</th>
+                    <th>Ward Type</th>
+                    <th>Admitted On</th>
+                    <th>Expected Discharge</th>
+                    <th>ICU</th>
+                    <th>Operation</th>
+                    {% if session.get('role') == 'admin' %}
+                    <th>Actions</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in admissions %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td style="color: var(--text-primary); font-weight: 500;">{{ a[1] }}</td>
+                    <td>{{ a[2] }}</td>
+                    <td>{{ a[3] }}</td>
+                    <td>{{ a[4] }}</td>
+                    <td>
+                        {% if a[5] %}
+                        <span class="badge badge-danger">
+                            <span class="badge-dot"></span>
+                            ICU
+                        </span>
+                        {% else %}
+                        <span class="badge badge-success">No</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if a[6] %}
+                        <span class="badge badge-warning">
+                            <span class="badge-dot"></span>
+                            Required
+                        </span>
+                        {% else %}
+                        <span class="badge badge-success">No</span>
+                        {% endif %}
+                    </td>
+                    {% if session.get('role') == 'admin' %}
+                    <td>
+                        <div class="table-actions">
+                            <a href="/delete_admission/{{ a[0] }}" class="btn-icon delete" title="Delete"
+                               onclick="return confirm('Delete this admission?')">
+                                <i data-lucide="trash-2"></i>
+                            </a>
+                        </div>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">🏥</div>
+            <h3>No admissions found</h3>
+            <p>Admit a patient to start tracking</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- ICU Admissions -->
+{% if icu_admissions %}
+<div class="reveal">
+    <div class="section-title">
+        <span>🚨 ICU Records</span>
+        <div class="section-title-line"></div>
+    </div>
+</div>
+
+<div class="glass-card reveal reveal-delay-2">
+    <div class="table-container">
+        <table class="data-table" id="icu-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Patient</th>
+                    <th>Bed Number</th>
+                    <th>ICU Start</th>
+                    <th>ICU End</th>
+                    <th>Daily Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in icu_admissions %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td style="color: var(--text-primary); font-weight: 500;">{{ i[1] }}</td>
+                    <td>
+                        <span class="badge badge-danger">Bed {{ i[2] }}</span>
+                    </td>
+                    <td>{{ i[3] }}</td>
+                    <td>{{ i[4] or '—' }}</td>
+                    <td>₹{{ i[5] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

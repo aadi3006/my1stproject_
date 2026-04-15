@@ -1,23 +1,56 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Doctor</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 p-8">
+{% extends 'base.html' %}
 
-<h2 class="text-2xl font-bold mb-6">Add Doctor</h2>
+{% block title %}Add Doctor{% endblock %}
+{% block header_title %}Add Doctor{% endblock %}
 
-<form method="POST" class="bg-white p-6 rounded shadow w-96 space-y-4">
-    <input type="text" name="name" placeholder="Doctor Name" class="w-full border p-2 rounded" required>
-    <input type="text" name="specialization" placeholder="Specialization" class="w-full border p-2 rounded" required>
-    <input type="text" name="contact" placeholder="Contact" class="w-full border p-2 rounded">
-    <input type="number" name="experience" placeholder="Experience (Years)" class="w-full border p-2 rounded">
+{% block content %}
 
-    <button class="bg-blue-600 text-white px-4 py-2 rounded">
-        Add Doctor
-    </button>
-</form>
+<div class="page-header reveal">
+    <h1>Add New Doctor</h1>
+    <p>Enter the doctor's professional details</p>
+</div>
 
-</body>
-</html>
+<div class="glass-card form-card reveal reveal-delay-1">
+
+    <form method="POST" id="add-doctor-form">
+
+        <div class="form-group">
+            <label class="form-label" for="name">Doctor Name</label>
+            <input type="text" name="name" id="name" class="form-input"
+                   placeholder="Enter doctor's full name" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="specialization">Specialization</label>
+            <input type="text" name="specialization" id="specialization" class="form-input"
+                   placeholder="e.g. Cardiology, Neurology, Orthopedics" required>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" for="contact">Contact Number</label>
+                <input type="text" name="contact" id="contact" class="form-input"
+                       placeholder="Phone number">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="experience">Experience (Years)</label>
+                <input type="number" name="experience" id="experience" class="form-input"
+                       placeholder="Years of experience">
+            </div>
+        </div>
+
+        <div class="form-divider"></div>
+
+        <div class="flex gap-4">
+            <button type="submit" class="btn btn-primary btn-lg" style="flex:1;" id="submit-doctor">
+                <i data-lucide="plus-circle"></i>
+                Add Doctor
+            </button>
+            <a href="/doctors" class="btn btn-ghost btn-lg" id="cancel-doctor">Cancel</a>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

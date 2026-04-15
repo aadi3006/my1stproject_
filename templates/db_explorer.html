@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Database Explorer{% endblock %}
+{% block header_title %}Database Explorer{% endblock %}
+
+{% block content %}
+
+<div class="page-header reveal">
+    <h1>🗄️ Database Explorer</h1>
+    <p>Browse all tables in the hospital database</p>
+</div>
+
+<div class="db-cards-grid">
+    {% for table in tables %}
+    <a href="/db_explorer/{{ table.name }}" class="db-table-card reveal reveal-delay-{{ loop.index % 5 + 1 }}" id="db-card-{{ table.name }}">
+        <div class="db-table-icon">
+            <i data-lucide="table-2"></i>
+        </div>
+        <div class="db-table-name">{{ table.name }}</div>
+        <div class="db-table-count">{{ table.row_count }} rows</div>
+    </a>
+    {% endfor %}
+</div>
+
+{% if not tables %}
+<div class="glass-card reveal">
+    <div class="empty-state">
+        <div class="empty-state-icon">🗃️</div>
+        <h3>No tables found</h3>
+        <p>The database appears to be empty</p>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

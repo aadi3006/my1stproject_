@@ -1,38 +1,96 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Appointments</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 p-8">
+{% extends 'base.html' %}
 
-<h2 class="text-2xl font-bold mb-6">Appointments</h2>
+{% block title %}Appointments{% endblock %}
+{% block header_title %}Appointments{% endblock %}
 
-<table class="bg-white shadow rounded w-full">
-    <thead class="bg-gray-200">
-        <tr>
-            <th class="p-2">Patient</th>
-            <th class="p-2">Doctor</th>
-            <th class="p-2">Date</th>
-            <th class="p-2">Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for a in appointments %}
-        <tr class="border-t text-center">
+{% block content %}
 
-            <td class="p-2">{{ a[1] }}</td>
-            <td class="p-2">{{ a[2] }}</td>
-            <td class="p-2">{{ a[3] }}</td>
-            <td class="p-2">{{ a[4] }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="page-header reveal">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1>All Appointments</h1>
+            <p>Track and manage patient-doctor appointments</p>
+        </div>
+        {% if session.get('role') == 'admin' %}
+        <a href="/add_appointment" class="btn btn-primary" id="btn-add-appointment">
+            <i data-lucide="calendar-plus"></i>
+            Add Appointment
+        </a>
+        {% endif %}
+    </div>
+</div>
 
-<a href="/" class="inline-block mt-4 bg-blue-600 text-white px-4 py-2 rounded">
-    Back to Dashboard
-</a>
+<div class="glass-card reveal reveal-delay-1">
+    <div class="table-container">
+        {% if appointments %}
+        <table class="data-table" id="appointments-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date & Time</th>
+                    <th>Status</th>
+                    {% if session.get('role') == 'admin' %}
+                    <th>Actions</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in appointments %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td style="color: var(--text-primary); font-weight: 500;">{{ a[1] }}</td>
+                    <td>{{ a[2] }}</td>
+                    <td>{{ a[3] }}</td>
+                    <td>
+                        {% if a[4] == 'Scheduled' %}
+                        <span class="badge badge-info">
+                            <span class="badge-dot"></span>
+                            Scheduled
+                        </span>
+                        {% elif a[4] == 'Completed' %}
+                        <span class="badge badge-success">
+                            <span class="badge-dot"></span>
+                            Completed
+                        </span>
+                        {% elif a[4] == 'Cancelled' %}
+                        <span class="badge badge-danger">
+                            <span class="badge-dot"></span>
+                            Cancelled
+                        </span>
+                        {% else %}
+                        <span class="badge badge-warning">
+                            <span class="badge-dot"></span>
+                            {{ a[4] }}
+                        </span>
+                        {% endif %}
+                    </td>
+                    {% if session.get('role') == 'admin' %}
+                    <td>
+                        <div class="table-actions">
+                            <a href="/delete_appointment/{{ a[0] }}" class="btn-icon delete" title="Delete"
+                               onclick="return confirm('Delete this appointment?')">
+                                <i data-lucide="trash-2"></i>
+                            </a>
+                        </div>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">📅</div>
+            <h3>No appointments found</h3>
+            <p>Schedule a new appointment to get started</p>
+            {% if session.get('role') == 'admin' %}
+            <a href="/add_appointment" class="btn btn-primary mt-4">Add Appointment</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
 
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MediCare{% endblock %} — Hospital Management</title>
+    <meta name="description" content="MediCare Hospital Management System — Premium healthcare administration platform">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+    <!-- Animated Background -->
+    <div class="app-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="app-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">🌺</div>
+                <div class="sidebar-brand">
+                    <h1>MediCare</h1>
+                    <p>Hospital System</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">Main</div>
+                <a href="/" class="nav-link {% if current_page == 'dashboard' %}active{% endif %}" id="nav-dashboard">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <div class="nav-section-title">Management</div>
+                <a href="/patients" class="nav-link {% if current_page == 'patients' %}active{% endif %}" id="nav-patients">
+                    <i data-lucide="users"></i>
+                    <span>Patients</span>
+                </a>
+                <a href="/doctors" class="nav-link {% if current_page == 'doctors' %}active{% endif %}" id="nav-doctors">
+                    <i data-lucide="stethoscope"></i>
+                    <span>Doctors</span>
+                </a>
+                <a href="/appointments" class="nav-link {% if current_page == 'appointments' %}active{% endif %}" id="nav-appointments">
+                    <i data-lucide="calendar-check"></i>
+                    <span>Appointments</span>
+                </a>
+
+                <div class="nav-section-title">Records</div>
+                <a href="/admissions" class="nav-link {% if current_page == 'admissions' %}active{% endif %}" id="nav-admissions">
+                    <i data-lucide="bed-double"></i>
+                    <span>Admissions</span>
+                </a>
+                {% if session.get('role') == 'admin' %}
+                <a href="/billing" class="nav-link {% if current_page == 'billing' %}active{% endif %}" id="nav-billing">
+                    <i data-lucide="receipt"></i>
+                    <span>Billing</span>
+                </a>
+                {% endif %}
+                <a href="/bills" class="nav-link {% if current_page == 'bills' %}active{% endif %}" id="nav-bills">
+                    <i data-lucide="file-text"></i>
+                    <span>View Bills</span>
+                </a>
+
+                {% if session.get('role') == 'admin' %}
+                <div class="nav-section-title">Admin</div>
+                <a href="/db_explorer" class="nav-link {% if current_page == 'db_explorer' %}active{% endif %}" id="nav-db-explorer">
+                    <i data-lucide="database"></i>
+                    <span>Database Explorer</span>
+                </a>
+                {% endif %}
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="/logout" class="nav-link" id="nav-logout">
+                    <i data-lucide="log-out"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Sidebar Overlay (Mobile) -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <div class="app-main">
+
+            <!-- Header Bar -->
+            <header class="app-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menu-toggle">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <h2>{% block header_title %}Dashboard{% endblock %}</h2>
+                </div>
+                <div class="header-right">
+                    <div class="header-user">
+                        <div class="header-user-avatar">
+                            {{ session.get('username', 'A')[0]|upper }}
+                        </div>
+                        <span>{{ session.get('username', 'Admin') }}</span>
+                        <span class="header-role-badge {{ session.get('role', 'viewer') }}">
+                            {{ session.get('role', 'viewer') }}
+                        </span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <main class="page-content">
+                {% block content %}{% endblock %}
+            </main>
+
+        </div>
+
+    </div>
+
+    <!-- Animations JS -->
+    <script src="{{ url_for('static', filename='js/animations.js') }}"></script>
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>

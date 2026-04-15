@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ table_name }} — DB Explorer{% endblock %}
+{% block header_title %}Table: {{ table_name }}{% endblock %}
+
+{% block content %}
+
+<div class="page-header reveal">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1>📋 {{ table_name }}</h1>
+            <p>{{ row_count }} rows &nbsp;•&nbsp; {{ columns|length }} columns</p>
+        </div>
+        <a href="/db_explorer" class="btn btn-ghost" id="btn-back-explorer">
+            <i data-lucide="arrow-left"></i>
+            Back to Tables
+        </a>
+    </div>
+</div>
+
+<!-- Search Bar -->
+<div class="db-toolbar reveal reveal-delay-1">
+    <input type="text" class="db-search" id="db-search-input"
+           placeholder="Search across all columns...">
+</div>
+
+<div class="glass-card reveal reveal-delay-2">
+    <div class="table-container">
+        {% if rows %}
+        <table class="data-table" id="db-data-table">
+            <thead>
+                <tr>
+                    {% for col in columns %}
+                    <th class="sortable">{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    {% for cell in row %}
+                    <td>{{ cell if cell is not none else '—' }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <h3>Table is empty</h3>
+            <p>No data found in {{ table_name }}</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    window.initDBSearch();
+    window.initDBSort();
+</script>
+{% endblock %}

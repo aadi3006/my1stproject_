@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System - ER Diagram</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .diagram-wrapper {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 30px;
+            border: 2px solid #e9ecef;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            min-height: 600px;
+        }
+
+        .legend {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .legend h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .legend-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .legend-item {
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+        }
+
+        .legend-item strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .legend-item span {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .table-info {
+            margin-top: 40px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .table-info h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .table-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .table-card {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+
+        .table-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+
+        .table-card ul {
+            list-style: none;
+            font-size: 0.9em;
+        }
+
+        .table-card li {
+            padding: 5px 0;
+            color: #555;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .table-card li:last-child {
+            border-bottom: none;
+        }
+
+        .primary-key {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .foreign-key {
+            color: #764ba2;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .diagram-wrapper {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Hospital Management System</h1>
+            <p>Entity-Relationship Diagram (ERD)</p>
+        </div>
+
+        <div class="diagram-wrapper">
+            <div class="mermaid">
+                erDiagram
+                    PATIENT ||--o{ APPOINTMENT : has
+                    PATIENT ||--o{ ADMISSION : undergoes
+                    DOCTOR ||--o{ APPOINTMENT : conducts
+                    DOCTOR ||--o{ OPERATION : performs
+                    ADMISSION ||--o{ WARD : occupies
+                    ADMISSION ||--o{ ICU : requires
+                    ADMISSION ||--o{ OPERATION : includes
+                    ADMISSION ||--o{ BILLING : generates
+                    WARD ||--o{ ADMISSION : contains
+                    ICU ||--o{ ADMISSION : admits
+                    OPERATION ||--o{ OPERATION_THEATRE : schedules
+                    PATIENT ||--o{ DISEASE : suffers
+                    PATIENT ||--o{ LAB_TEST : undergoes
+                    LAB_TEST ||--o{ TEST_REPORT : produces
+                    ADMISSION ||--o{ BILLING : calculates
+                    DEPARTMENT ||--o{ DOCTOR : employs
+
+                    PATIENT {
+                        int patient_id PK
+                        string name
+                        int age
+                        string gender
+                        string contact
+                        string address
+                        date registration_date
+                    }
+
+                    DOCTOR {
+                        int doctor_id PK
+                        string doctor_name
+                        string specialization
+                        string contact
+                        int experience
+                        int department_id FK
+                    }
+
+                    APPOINTMENT {
+                        int appointment_id PK
+                        int patient_id FK
+                        int doctor_id FK
+                        date appointment_date
+                        string type
+                        string status
+                        time appointment_time
+                    }
+
+                    ADMISSION {
+                        int admission_id PK
+                        int patient_id FK
+                        int ward_id FK
+                        date admission_date
+                        date discharge_date
+                        boolean icu_required
+                        boolean operation_required
+                    }
+
+                    WARD {
+                        int ward_id PK
+                        string ward_name
+                        string ward_type
+                        int total_beds
+                        int available_beds
+                        decimal daily_charge
+                    }
+
+                    ICU {
+                        int icu_id PK
+                        int admission_id FK
+                        date icu_start_date
+                        date icu_end_date
+                        decimal daily_cost
+                    }
+
+                    OPERATION {
+                        int operation_id PK
+                        int admission_id FK
+                        int doctor_id FK
+                        string operation_name
+                        date operation_date
+                        int theatre_id FK
+                        decimal operation_cost
+                    }
+
+                    OPERATION_THEATRE {
+                        int theatre_id PK
+                        string theatre_name
+                        string theatre_type
+                        boolean is_available
+                    }
+
+                    BILLING {
+                        int billing_id PK
+                        int admission_id FK
+                        decimal ward_charges
+                        decimal icu_charges
+                        decimal operation_charges
+                        decimal total_amount
+                        date billing_date
+                        string payment_status
+                    }
+
+                    DISEASE {
+                        int disease_id PK
+                        string disease_name
+                        string description
+                    }
+
+                    PATIENT_DISEASE {
+                        int patient_disease_id PK
+                        int patient_id FK
+                        int disease_id FK
+                        date diagnosis_date
+                    }
+
+                    LAB_TEST {
+                        int test_id PK
+                        int patient_id FK
+                        string test_name
+                        date test_date
+                        string test_type
+                    }
+
+                    TEST_REPORT {
+                        int report_id PK
+                        int test_id FK
+                        string report_result
+                        date report_date
+                        string report_notes
+                    }
+
+                    DEPARTMENT {
+                        int department_id PK
+                        string department_name
+                        string location
+                    }
+
+                    USERS {
+                        int user_id PK
+                        string username
+                        string password_hash
+                        string role
+                        date created_at
+                    }
+            </div>
+        </div>
+
+        <div class="legend">
+            <h3>📋 Legend & Relationships</h3>
+            <div class="legend-content">
+                <div class="legend-item">
+                    <strong>PK (Primary Key)</strong>
+                    <span>Unique identifier for each record in the table</span>
+                </div>
+                <div class="legend-item">
+                    <strong>FK (Foreign Key)</strong>
+                    <span>References primary key from another table</span>
+                </div>
+                <div class="legend-item">
+                    <strong>||--o{ (One to Many)</strong>
+                    <span>One patient has many appointments</span>
+                </div>
+                <div class="legend-item">
+                    <strong>Cardinality</strong>
+                    <span>Shows relationship multiplicity between entities</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-info">
+            <h3>📊 Detailed Table Structure</h3>
+            <div class="table-grid">
+                <div class="table-card">
+                    <h4>👤 PATIENT</h4>
+                    <ul>
+                        <li><span class="primary-key">patient_id (PK)</span></li>
+                        <li>name</li>
+                        <li>age</li>
+                        <li>gender</li>
+                        <li>contact</li>
+                        <li>address</li>
+                        <li>registration_date</li>
+                    </ul>
+                </div>
+
+                <div class="table-card">
+                    <h4>👨‍⚕️ DOCTOR</h4>
+                    <ul>
+                        <li><span class="primary-key">doctor_id (PK)</span></li>
+                        <li>doctor_name</li>
+                        <li>specialization</li>
+                        <li>contact</li>
+                        <li>experience</li>
+                        <li><span class="foreign-key">department_id (FK)</span></li>
+                    </ul>
+                </div>
+
+                <div class="table-card">
+                    <h4>📅 APPOINTMENT</h4>
+                    <ul>
+                        <li><span class="primary-key">appointment_id (PK)</span></li>
+                        <li><span class="foreign-key">patient_id (FK)</span></li>
+                        <li><span class="foreign-key">doctor_id (FK)</span></li>
+                        <li>appointment_date</li>
+                        <li>appointment_time</li>
+                        <li>type</li>
+                        <li>status (Scheduled/Completed/Cancelled)</li>
+                    </ul>
+                </div>
+
+                <div class="table-card">
+                    <h4>🏥 ADMISSION</h4>
+                    <ul>
+                        <li><span class="primary-key">admission_id (PK)</span></li>
+                        <li><span class="foreign-key">patient_id (FK)</span></li>
+                        <li><span class="foreign-key">ward_id (FK)</span></li>
+                        <li>admission_date</li>
+                        <li>discharge_date</li>
+                        <li>icu_required</li>
+                        <li>operation_required</li>
+                    </ul>
+                </div>
+
+                <div class="table-card">
+                    <h4>🛏️ WARD</h4>
+                    <ul>
+                        <li><span class="primary-key">ward_id (PK)</span></li>
+                        <li>ward_name</li>
+                        <li>ward_type (General/ICU/Maternity)</li>
+                        <li>total_beds</li>
+                        <li>available_beds</li>
+                        <li>daily_charge</li>
+                    </ul>
+                </div>
+
+                <div class="table-card">
+                    <h4>🚑 ICU</h4>
+                    <ul>
+                        <li><span class="primary-key">icu_id (PK)</span></li>
+                        <li><span class="foreign-key">admission_id (FK)</span></li>
+                        <li>icu_start_date</li>
+                        <li>icu_end_date</li>
+                        <li>daily_cost ($2,500/day)</li>
+                    </ul>
+                </div>
+
+                <div class="table-card">
+                    <h4>🏥 OPERATION</h4>
+                    <ul>
+                        <li><span class="primary-key">operation_id (PK)</span></li>
+                        <li><span class="foreign-key">admission_id (FK)</span></li>
+                        <li><span class="foreign-key">doctor_id (FK)</span></li>
+                        <li>operation_name</li>
+                        <li>operation_date</li>
+                        <li><span class="foreign-key">theatre_id (FK)</span></li>
+                        <li>operation_cost</li>
+                    </ul>
+                </div>
+
+                <div class="table-card">
+                    <h4>💰 BILLING</h4>
+                    <ul>
+                        <li><span class="primary-key">billing_id (PK)</span></li>
+                        <li><span class="foreign-key">admission_id (FK)</span></li>
+                        <li>ward_charges</li>
+                        <li>icu_charges</li>
+                        <li>operation_charges</li>
+                        <li>total_amount</li>
+                        <li>billing_date</li>
+                        <li>payment_status (Paid/Unpaid)</li>
+                    </ul>
+                </div>
+
+                <div class="table-card">
+                    <h4>🏥 OPERATION_THEATRE</h4>
+                    <ul>
+                        <li><span class="primary-key">theatre_id (PK)</span></li>
+                        <li>theatre_name</li>
+                        <li>theatre_type</li>
+                        <li>is_available</li>
+                    </ul>
+                </div>
+
+                <div class="table-card">
+                    <h4>🦠 DISEASE</h4>
+                    <ul>
+                        <li><span class="primary-key">disease_id (PK)</span></li>
+                        <li>disease_name</li>
+                        <li>description</li>
+                    </ul>
+                </div>
+
+                <div class="table-card">
+                    <h4>🔬 LAB_TEST</h4>
+                    <ul>
+                        <li><span class="primary-key">test_id (PK)</span></li>
+                        <li><span class="foreign-key">patient_id (FK)</span></li>
+                        <li>test_name</li>
+                        <li>test_date</li>
+                        <li>test_type</li>
+                    </ul>
+                </div>
+
+                <div class="table-card">
+                    <h4>📋 TEST_REPORT</h4>
+                    <ul>
+                        <li><span class="primary-key">report_id (PK)</span></li>
+                        <li><span class="foreign-key">test_id (FK)</span></li>
+                        <li>report_result</li>
+                        <li>report_date</li>
+                        <li>report_notes</li>
+                    </ul>
+                </div>
+
+                <div class="table-card">
+                    <h4>🏢 DEPARTMENT</h4>
+                    <ul>
+                        <li><span class="primary-key">department_id (PK)</span></li>
+                        <li>department_name</li>
+                        <li>location</li>
+                    </ul>
+                </div>
+
+                <div class="table-card">
+                    <h4>👥 USERS</h4>
+                    <ul>
+                        <li><span class="primary-key">user_id (PK)</span></li>
+                        <li>username</li>
+                        <li>password_hash (SHA-256)</li>
+                        <li>role (Admin/Doctor/Staff)</li>
+                        <li>created_at</li>
+                    </ul>
+                </div>
+
+                <div class="table-card">
+                    <h4>🔗 PATIENT_DISEASE</h4>
+                    <ul>
+                        <li><span class="primary-key">patient_disease_id (PK)</span></li>
+                        <li><span class="foreign-key">patient_id (FK)</span></li>
+                        <li><span class="foreign-key">disease_id (FK)</span></li>
+                        <li>diagnosis_date</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 40px; padding: 20px; background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border-radius: 8px; border-left: 4px solid #667eea;">
+            <h3 style="color: #333; margin-bottom: 15px;">🔑 Key Relationships Summary</h3>
+            <ul style="list-style: none; color: #555; line-height: 1.8;">
+                <li><strong>Patient → Appointment:</strong> One patient can have multiple appointments</li>
+                <li><strong>Patient → Admission:</strong> One patient can have multiple admissions</li>
+                <li><strong>Doctor → Appointment:</strong> One doctor can conduct multiple appointments</li>
+                <li><strong>Doctor → Operation:</strong> One doctor can perform multiple operations</li>
+                <li><strong>Admission → Ward:</strong> Each admission is assigned to a ward</li>
+                <li><strong>Admission → ICU:</strong> Admission can require ICU care</li>
+                <li><strong>Admission → Operation:</strong> Admission can include surgical operations</li>
+                <li><strong>Admission → Billing:</strong> Each admission generates a billing record</li>
+                <li><strong>Ward → Bed Tracking:</strong> Ward tracks available and total beds</li>
+                <li><strong>Operation → Theatre:</strong> Operations are scheduled in operation theatres</li>
+                <li><strong>Patient → Disease:</strong> Patient can suffer from multiple diseases</li>
+                <li><strong>Patient → Lab_Test:</strong> Patient can undergo multiple lab tests</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+        mermaid.contentLoaded();
+    </script>
+</body>
+</html>

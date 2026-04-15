@@ -1,32 +1,72 @@
 {% extends 'base.html' %}
+
+{% block title %}Add ICU Record{% endblock %}
+{% block header_title %}Add ICU Record{% endblock %}
+
 {% block content %}
 
-<div class="max-w-lg mx-auto mt-10 bg-white p-6 rounded shadow">
-  <h2 class="text-2xl font-bold mb-4">Add ICU Details</h2>
+<div class="page-header reveal">
+    <h1>Add ICU Details</h1>
+    <p>Record ICU admission details for a patient</p>
+</div>
 
-  <form method="POST">
-    <div class="mb-4">
-      <label class="block font-semibold">Bed Number</label>
-      <input type="text" name="bed_number" required
-             class="w-full border p-2 rounded">
+<div class="glass-card form-card reveal reveal-delay-1">
+
+    <div class="info-bar mb-6">
+        <i data-lucide="alert-triangle"></i>
+        <span>Only admissions flagged as ICU-required are shown below</span>
     </div>
 
-    <div class="mb-4">
-      <label class="block font-semibold">Daily Cost</label>
-      <input type="number" step="0.01" name="daily_cost" required
-             class="w-full border p-2 rounded">
-    </div>
+    <form method="POST" id="add-icu-form">
 
-    <div class="mb-4">
-      <label class="block font-semibold">ICU Start Date</label>
-      <input type="date" name="icu_start_date" required
-             class="w-full border p-2 rounded">
-    </div>
+        <div class="form-group">
+            <label class="form-label" for="admission_id">Select Admission</label>
+            <select name="admission_id" id="admission_id" class="form-select" required>
+                <option value="">— Choose ICU Admission —</option>
+                {% for a in admissions %}
+                <option value="{{ a[0] }}">{{ a[1] }} — Admitted: {{ a[2] }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-    <button class="bg-red-600 text-white px-4 py-2 rounded">
-      Admit to ICU
-    </button>
-  </form>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" for="bed_number">Bed Number</label>
+                <input type="text" name="bed_number" id="bed_number" class="form-input"
+                       placeholder="e.g. ICU-01" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="daily_cost">Daily Cost (₹)</label>
+                <input type="number" step="0.01" name="daily_cost" id="daily_cost"
+                       class="form-input" value="2500.00" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" for="icu_start_date">ICU Start Date</label>
+                <input type="date" name="icu_start_date" id="icu_start_date"
+                       class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="icu_end_date">ICU End Date (optional)</label>
+                <input type="date" name="icu_end_date" id="icu_end_date"
+                       class="form-input">
+            </div>
+        </div>
+
+        <div class="form-divider"></div>
+
+        <div class="flex gap-4">
+            <button type="submit" class="btn btn-danger btn-lg" style="flex:1;" id="submit-icu">
+                <i data-lucide="heart-pulse"></i>
+                Admit to ICU
+            </button>
+            <a href="/admissions" class="btn btn-ghost btn-lg" id="cancel-icu">Cancel</a>
+        </div>
+
+    </form>
+
 </div>
 
 {% endblock %}

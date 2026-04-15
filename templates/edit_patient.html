@@ -1,24 +1,65 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Patient</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 p-8">
+{% extends 'base.html' %}
 
-    <h2 class="text-2xl font-bold mb-6">Edit Patient</h2>
+{% block title %}Edit Patient{% endblock %}
+{% block header_title %}Edit Patient{% endblock %}
 
-    <form method="POST" class="space-y-4 bg-white p-6 rounded shadow-md w-96">
-        <input type="text" name="name" value="{{ patient[1] }}" class="w-full border p-2 rounded" required>
-        <input type="number" name="age" value="{{ patient[2] }}" class="w-full border p-2 rounded" required>
-        <input type="text" name="gender" value="{{ patient[3] }}" class="w-full border p-2 rounded">
-        <input type="text" name="contact" value="{{ patient[4] }}" class="w-full border p-2 rounded">
-        <input type="text" name="address" value="{{ patient[5] }}" class="w-full border p-2 rounded">
+{% block content %}
 
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
-            Update Patient
-        </button>
+<div class="page-header reveal">
+    <h1>Edit Patient</h1>
+    <p>Update patient information</p>
+</div>
+
+<div class="glass-card form-card reveal reveal-delay-1">
+
+    <form method="POST" id="edit-patient-form">
+
+        <div class="form-group">
+            <label class="form-label" for="name">Full Name</label>
+            <input type="text" name="name" id="name" class="form-input"
+                   value="{{ patient[1] }}" required>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" for="age">Age</label>
+                <input type="number" name="age" id="age" class="form-input"
+                       value="{{ patient[2] }}" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="gender">Gender</label>
+                <select name="gender" id="gender" class="form-select">
+                    <option value="Male" {% if patient[3] == 'Male' %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if patient[3] == 'Female' %}selected{% endif %}>Female</option>
+                    <option value="Other" {% if patient[3] == 'Other' %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="contact">Contact Number</label>
+            <input type="text" name="contact" id="contact" class="form-input"
+                   value="{{ patient[4] }}">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="address">Address</label>
+            <input type="text" name="address" id="address" class="form-input"
+                   value="{{ patient[5] }}">
+        </div>
+
+        <div class="form-divider"></div>
+
+        <div class="flex gap-4">
+            <button type="submit" class="btn btn-primary btn-lg" style="flex:1;" id="update-patient">
+                <i data-lucide="save"></i>
+                Update Patient
+            </button>
+            <a href="/patients" class="btn btn-ghost btn-lg" id="cancel-edit-patient">Cancel</a>
+        </div>
+
     </form>
 
-</body>
-</html>
+</div>
+
+{% endblock %}

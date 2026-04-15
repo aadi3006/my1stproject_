@@ -1,126 +1,141 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Hospital Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="min-h-screen bg-gray-50 flex">
+{% extends 'base.html' %}
 
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-lg min-h-screen">
-        <div class="p-6 border-b">
-            <h1 class="font-bold text-xl text-gray-800">MediCare</h1>
-            <p class="text-xs text-gray-500">Hospital System</p>
+{% block title %}Dashboard{% endblock %}
+{% block header_title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<!-- Welcome Section -->
+<div class="page-header reveal">
+    <h1>Welcome Back, {{ session.get('username', 'Admin') }} 👋</h1>
+    <p>Here's an overview of your hospital operations today</p>
+</div>
+
+<!-- Statistics Cards -->
+<div class="stats-grid">
+    <div class="stat-card cyan reveal reveal-delay-1" id="stat-patients">
+        <div class="stat-card-icon">
+            <i data-lucide="users"></i>
         </div>
-
-        <nav class="p-4 space-y-2">
-            <a href="/" class="block px-4 py-2 bg-blue-600 text-white rounded-lg">Dashboard</a>
-            <a href="/patients" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Patients</a>
-            <a href="/doctors" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Doctors</a>
-            <a href="/appointments" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Appointments</a>
-            <a href="/billing" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Billing</a>
-        </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <div class="flex-1 flex flex-col">
-
-        <!-- Header -->
-        <header class="bg-white shadow-sm p-6">
-            <h2 class="text-2xl font-semibold text-gray-800">
-                Welcome Back, Admin
-            </h2>
-            <p class="text-sm text-gray-500 mt-1">
-                Here's what's happening today
-            </p>
-        </header>
-
-        <!-- Dashboard Content -->
-        <main class="flex-1 px-8 py-6">
-
-            <!-- Statistics Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-
-                <!-- Total Patients -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-gray-500 text-sm">Total Patients</h3>
-                    <p class="text-3xl font-bold text-gray-800 mt-2">
-                        {{ total_patients }}
-                    </p>
-                </div>
-
-                <!-- Total Doctors -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-gray-500 text-sm">Total Doctors</h3>
-                    <p class="text-3xl font-bold text-gray-800 mt-2">
-                        {{ total_doctors }}
-                    </p>
-                </div>
-
-                <!-- Total Appointments -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-gray-500 text-sm">Total Appointments</h3>
-                    <p class="text-3xl font-bold text-gray-800 mt-2">
-                        {{ total_appointments }}
-                    </p>
-                </div>
-
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h3 class="text-xl font-semibold text-gray-800 mb-6">
-                    Quick Actions
-                </h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <a href="/add_patient" class="bg-blue-600 text-white p-4 rounded-lg text-center hover:bg-blue-700">
-                        Add Patient
-                    </a>
-                    <a href="/patients" class="bg-green-600 text-white p-4 rounded-lg text-center hover:bg-green-700">
-                        View Patients
-                    </a>
-
-                    <a href="/add_doctor" class="bg-green-600 text-white p-4 rounded-lg text-center hover:bg-green-700">
-                        Add Doctor
-                    </a>
-
-                    <a href="/doctors" class="bg-green-600 text-white p-4 rounded-lg text-center">
-                        View Doctors
-                    </a>
-                    <a href="/add_appointment" class="bg-purple-600 text-white p-4 rounded-lg text-center">
-                         Add Appointment
-                    </a>
-
-                    <a href="/appointments" class="bg-purple-600 text-white p-4 rounded-lg text-center hover:bg-purple-700">
-                        View Appointments
-                    </a>
-
-                    <a href="/billing" class="bg-red-600 text-white p-4 rounded-lg text-center hover:bg-red-700">
-                        Billing
-                    </a>
-                    <a href="/bills" class="bg-red-600 text-white p-4 rounded-lg text-center">
-                        View Bills
-                    </a>
-                    <a href="/add_admission" class="bg-teal-600 text-white p-4 rounded-lg text-center">
-                        Admit Patient
-                    </a>
-
-                    <a href="/admissions" class="bg-cyan-600 text-white p-4 rounded-lg text-center">
-                      View Admissions
-                    </a>
-
-                    <a href="/logout" class="bg-red-600 text-white px-4 py-2 rounded">
-                        Logout
-                    </a>
-
-
-
-                </div>
-            </div>
-
-        </main>
-
+        <div class="stat-card-label">Total Patients</div>
+        <div class="stat-card-value" data-count="{{ total_patients }}">0</div>
     </div>
 
-</body>
-</html>
+    <div class="stat-card purple reveal reveal-delay-2" id="stat-doctors">
+        <div class="stat-card-icon">
+            <i data-lucide="stethoscope"></i>
+        </div>
+        <div class="stat-card-label">Total Doctors</div>
+        <div class="stat-card-value" data-count="{{ total_doctors }}">0</div>
+    </div>
+
+    <div class="stat-card emerald reveal reveal-delay-3" id="stat-appointments">
+        <div class="stat-card-icon">
+            <i data-lucide="calendar-check"></i>
+        </div>
+        <div class="stat-card-label">Total Appointments</div>
+        <div class="stat-card-value" data-count="{{ total_appointments }}">0</div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="reveal reveal-delay-4">
+    <div class="section-title">
+        <span>⚡ Quick Actions</span>
+        <div class="section-title-line"></div>
+    </div>
+</div>
+
+<div class="actions-grid">
+
+    {% if session.get('role') == 'admin' %}
+    <a href="/add_patient" class="action-card blue reveal reveal-delay-1" id="action-add-patient">
+        <div class="action-icon">
+            <i data-lucide="user-plus"></i>
+        </div>
+        <span>Add Patient</span>
+    </a>
+    {% endif %}
+
+    <a href="/patients" class="action-card cyan reveal reveal-delay-2" id="action-view-patients">
+        <div class="action-icon">
+            <i data-lucide="users"></i>
+        </div>
+        <span>View Patients</span>
+    </a>
+
+    {% if session.get('role') == 'admin' %}
+    <a href="/add_doctor" class="action-card emerald reveal reveal-delay-1" id="action-add-doctor">
+        <div class="action-icon">
+            <i data-lucide="user-plus"></i>
+        </div>
+        <span>Add Doctor</span>
+    </a>
+    {% endif %}
+
+    <a href="/doctors" class="action-card purple reveal reveal-delay-2" id="action-view-doctors">
+        <div class="action-icon">
+            <i data-lucide="stethoscope"></i>
+        </div>
+        <span>View Doctors</span>
+    </a>
+
+    {% if session.get('role') == 'admin' %}
+    <a href="/add_appointment" class="action-card amber reveal reveal-delay-3" id="action-add-appointment">
+        <div class="action-icon">
+            <i data-lucide="calendar-plus"></i>
+        </div>
+        <span>Add Appointment</span>
+    </a>
+    {% endif %}
+
+    <a href="/appointments" class="action-card blue reveal reveal-delay-4" id="action-view-appointments">
+        <div class="action-icon">
+            <i data-lucide="calendar-check"></i>
+        </div>
+        <span>View Appointments</span>
+    </a>
+
+    {% if session.get('role') == 'admin' %}
+    <a href="/add_admission" class="action-card cyan reveal reveal-delay-3" id="action-add-admission">
+        <div class="action-icon">
+            <i data-lucide="bed-double"></i>
+        </div>
+        <span>Admit Patient</span>
+    </a>
+    {% endif %}
+
+    <a href="/admissions" class="action-card emerald reveal reveal-delay-4" id="action-view-admissions">
+        <div class="action-icon">
+            <i data-lucide="clipboard-list"></i>
+        </div>
+        <span>View Admissions</span>
+    </a>
+
+    {% if session.get('role') == 'admin' %}
+    <a href="/billing" class="action-card rose reveal reveal-delay-5" id="action-billing">
+        <div class="action-icon">
+            <i data-lucide="receipt"></i>
+        </div>
+        <span>Generate Bill</span>
+    </a>
+    {% endif %}
+
+    <a href="/bills" class="action-card amber reveal reveal-delay-5" id="action-view-bills">
+        <div class="action-icon">
+            <i data-lucide="file-text"></i>
+        </div>
+        <span>View Bills</span>
+    </a>
+
+</div>
+
+<!-- Database Info -->
+<div class="mt-6 reveal">
+    <div class="info-bar">
+        <i data-lucide="database"></i>
+        <span>Database: 8 Active Tables &nbsp;•&nbsp; Hospital Management System v2.0</span>
+    </div>
+</div>
+
+{% endblock %}

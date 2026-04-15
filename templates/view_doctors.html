@@ -1,44 +1,82 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Doctors</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 p-8">
+{% extends 'base.html' %}
 
-<h2 class="text-2xl font-bold mb-6">Doctors</h2>
+{% block title %}Doctors{% endblock %}
+{% block header_title %}Doctor Records{% endblock %}
 
-<table class="bg-white shadow rounded w-full">
-    <thead class="bg-gray-200">
-        <tr>
+{% block content %}
 
-            <th class="p-2">Name</th>
-            <th class="p-2">Specialization</th>
-            <th class="p-2">Contact</th>
-            <th class="p-2">Experience</th>
-            <th class="p-2">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for d in doctors %}
-        <tr class="border-t text-center">
+<div class="page-header reveal">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1>All Doctors</h1>
+            <p>Manage doctor profiles and specializations</p>
+        </div>
+        {% if session.get('role') == 'admin' %}
+        <a href="/add_doctor" class="btn btn-primary" id="btn-add-doctor">
+            <i data-lucide="user-plus"></i>
+            Add Doctor
+        </a>
+        {% endif %}
+    </div>
+</div>
 
-            <td class="p-2">{{ d[1] }}</td>
-            <td class="p-2">{{ d[2] }}</td>
-            <td class="p-2">{{ d[3] }}</td>
-            <td class="p-2">{{ d[4] }}</td>
-            <td class="p-2 space-x-2">
-                <a href="/edit_doctor/{{ d[0] }}" class="bg-yellow-500 text-white px-2 py-1 rounded">Edit</a>
-                <a href="/delete_doctor/{{ d[0] }}" class="bg-red-600 text-white px-2 py-1 rounded">Delete</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="glass-card reveal reveal-delay-1">
+    <div class="table-container">
+        {% if doctors %}
+        <table class="data-table" id="doctors-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Specialization</th>
+                    <th>Contact</th>
+                    <th>Experience</th>
+                    {% if session.get('role') == 'admin' %}
+                    <th>Actions</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in doctors %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td style="color: var(--text-primary); font-weight: 500;">{{ d[1] }}</td>
+                    <td>
+                        <span class="badge badge-purple">
+                            <span class="badge-dot"></span>
+                            {{ d[2] }}
+                        </span>
+                    </td>
+                    <td>{{ d[3] }}</td>
+                    <td>{{ d[4] }} years</td>
+                    {% if session.get('role') == 'admin' %}
+                    <td>
+                        <div class="table-actions">
+                            <a href="/edit_doctor/{{ d[0] }}" class="btn-icon edit" title="Edit">
+                                <i data-lucide="pencil"></i>
+                            </a>
+                            <a href="/delete_doctor/{{ d[0] }}" class="btn-icon delete" title="Delete"
+                               onclick="return confirm('Are you sure you want to delete this doctor?')">
+                                <i data-lucide="trash-2"></i>
+                            </a>
+                        </div>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">🩺</div>
+            <h3>No doctors found</h3>
+            <p>Start by adding your first doctor profile</p>
+            {% if session.get('role') == 'admin' %}
+            <a href="/add_doctor" class="btn btn-primary mt-4">Add Doctor</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
 
-<a href="/" class="inline-block mt-4 bg-blue-600 text-white px-4 py-2 rounded">
-    Back to Dashboard
-</a>
-
-</body>
-</html>
+{% endblock %}
